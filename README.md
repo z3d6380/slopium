@@ -65,7 +65,7 @@ Installing a newer version over an older one keeps your settings.
 
 Slopium has its **own app ID** (`io.github.batmanrises.slopium`) and its own settings, files and processes, so it installs **alongside** Hearth and does not replace it. Everything Slopium stores or writes (its settings, the helper files and logs it keeps in `/tmp`, the start-up link for "replace LG Home", the processes it looks for) uses Slopium-only names, so it should not interfere with Hearth. Slopium lists Hearth as an ordinary app. Settings from Hearth or from older `tld.my.customlauncher` builds are **not** carried over.
 
-One thing to keep in mind: both launchers can offer **"replace LG Home"** (Options). That feature patches a system file of the stock LG Home, so **turn it on in only one launcher at a time**. The same goes for registering as a TV input: each launcher adds its own entry, so remove the one you no longer use from the input list.
+One thing to keep in mind: both launchers can offer **"replace LG Home"** (Options), so **turn it on in only one launcher at a time**. On webOS 11, Slopium mounts itself in LG Home's place and asks the TV to reread that app; LG's files stay on disk and the switch puts them back. On a TV that cannot reread Home, it uses the older handover helper. The same goes for registering as a TV input: each launcher adds its own entry, so remove the one you no longer use from the input list.
 
 ## Using it
 

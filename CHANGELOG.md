@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2: Home button and saved layout
+
+- **The Home button opens Slopium directly on webOS TVs whose Home app is Flutter** (this includes webOS 11). Slopium is mounted in Home's place and the app manager is asked to reread that one app. LG's own Home files stay underneath, and Restore puts them back. The older watcher remains the fallback when a TV cannot reread Home.
+- **One saved layout for the Slopium tile and the Home button.** Settings are also written to `/var/lib/webosbrew/slopium-config.json`. A failed or empty read no longer replaces a saved layout with the built-in defaults (Singapore, the default theme, 12-hour clock).
+- `tools/wifi-recover.sh` is an optional boot script for a TV whose Wi-Fi stays down until it is toggled. It is not run by the app. It turns Wi-Fi off and on once only when Wi-Fi is still down after boot, and it leaves Ethernet and an already-connected network alone.
+
 ## 1.0.1: install fix
 
 - **Fixed "-5: Failed to extract package" on some TVs** (reported on webOS 5.5). The package is now written in exactly the layout that ares-package produces: plain ustar tar archives with short, `usr/...` file names, and ar members without a trailing slash. Version 1.0.0 contained two icon paths that were 101 characters long, which made the packager write GNU "long name" records that older webOS installers cannot read.
