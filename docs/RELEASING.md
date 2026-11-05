@@ -5,7 +5,7 @@ Releases are automatic. When the version in `app/appinfo.json` changes on the `m
 Users add this repository to the Homebrew Channel once:
 
 ```
-https://raw.githubusercontent.com/batmanrises/slopium/main/repo/apps.json
+https://raw.githubusercontent.com/z3d6380/slopium/main/repo/apps.json
 ```
 
 `repo/apps.json` never changes. It points at `releases/latest/download/io.github.batmanrises.slopium.manifest.json`, so every new release is picked up by the Homebrew Channel, which then shows an **Update** button.
@@ -72,8 +72,8 @@ Only use this if you cannot use the workflow. The Homebrew Channel needs the man
 
 ## Check a release
 
-- Open `https://github.com/batmanrises/slopium/releases/latest/download/io.github.batmanrises.slopium.manifest.json`. A small text file should download, with `ipkUrl`, `ipkSize` and a `sha256`.
-- Open `https://raw.githubusercontent.com/batmanrises/slopium/main/repo/apps.json`. It should show the package list.
+- Open `https://github.com/z3d6380/slopium/releases/latest/download/io.github.batmanrises.slopium.manifest.json`. A small text file should download, with `ipkUrl`, `ipkSize` and a `sha256`.
+- Open `https://raw.githubusercontent.com/z3d6380/slopium/main/repo/apps.json`. It should show the package list.
 - Do not mark a release as a pre-release or a draft, or the "latest" link above will not find it.
 
 ## Building by hand (Linux or macOS, or Windows with WSL)

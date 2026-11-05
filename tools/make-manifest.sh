@@ -20,10 +20,10 @@ cat > "build/${APP_ID}.manifest.json" <<EOF
   "type": "web",
   "title": "Slopium",
   "appDescription": "A calm home screen launcher for LG webOS TVs: clock, weather, apps and inputs, recent apps panel, wallpapers.",
-  "iconUri": "https://raw.githubusercontent.com/batmanrises/slopium/main/repo/icon160.png",
-  "sourceUrl": "https://github.com/batmanrises/slopium",
+  "iconUri": "https://raw.githubusercontent.com/z3d6380/slopium/main/repo/icon160.png",
+  "sourceUrl": "https://github.com/z3d6380/slopium",
   "rootRequired": "optional",
-  "ipkUrl": "${APP_ID}_${VERSION}_all.ipk",
+  "ipkUrl": "https://github.com/z3d6380/slopium/releases/download/v${VERSION}/${APP_ID}_${VERSION}_all.ipk",
   "ipkSize": ${SIZE},
   "ipkHash": {
     "sha256": "${SHA256}"

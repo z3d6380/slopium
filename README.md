@@ -42,15 +42,15 @@ Plain, Frosted card, Stacked, Digital LED, Dot matrix, Nixie tubes, Analogue dia
 2. Choose **Add repository** and type:
 
    ```
-   https://raw.githubusercontent.com/batmanrises/slopium/main/repo/apps.json
+   https://raw.githubusercontent.com/z3d6380/slopium/main/repo/apps.json
    ```
 
-   (Typing with the remote is slow. From a computer on the same network you can send it over SSH instead: `ares-launch org.webosbrew.hbchannel -p '{"launchMode":"addRepository","url":"https://raw.githubusercontent.com/batmanrises/slopium/main/repo/apps.json"}'`)
+   (Typing with the remote is slow. From a computer on the same network you can send it over SSH instead: `ares-launch org.webosbrew.hbchannel -p '{"launchMode":"addRepository","url":"https://raw.githubusercontent.com/z3d6380/slopium/main/repo/apps.json"}'`)
 3. Go back to the app list, open **Slopium** and choose **Install**. When a new version is released, the Homebrew Channel shows an **Update** button.
 
 ### Option 2: install the `.ipk` yourself
 
-Download `io.github.batmanrises.slopium_<version>_all.ipk` from the [Releases](https://github.com/batmanrises/slopium/releases) page (or build it, see [Build](#build)) and install it with **[webOS Dev Manager](https://github.com/webosbrew/dev-manager-desktop)**, **or** over SSH on a rooted TV:
+Download `io.github.batmanrises.slopium_<version>_all.ipk` from the [Releases](https://github.com/z3d6380/slopium/releases) page (or build it, see [Build](#build)) and install it with **[webOS Dev Manager](https://github.com/webosbrew/dev-manager-desktop)**, **or** over SSH on a rooted TV:
 
 ```sh
 scp -O io.github.batmanrises.slopium_1.0.1_all.ipk root@TV_IP:/tmp/

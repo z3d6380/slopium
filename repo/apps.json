@@ -4,8 +4,8 @@
     {
       "id": "io.github.batmanrises.slopium",
       "title": "Slopium",
-      "iconUri": "https://raw.githubusercontent.com/batmanrises/slopium/main/repo/icon160.png",
-      "manifestUrl": "https://github.com/batmanrises/slopium/releases/latest/download/io.github.batmanrises.slopium.manifest.json"
+      "iconUri": "https://raw.githubusercontent.com/z3d6380/slopium/main/repo/icon160.png",
+      "manifestUrl": "https://github.com/z3d6380/slopium/releases/latest/download/io.github.batmanrises.slopium.manifest.json"
     }
   ]
 }

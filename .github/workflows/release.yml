@@ -81,7 +81,7 @@ jobs:
           if [ -f "$NOTES_FILE" ]; then
             NOTES=(--notes-file "$NOTES_FILE")
           else
-            NOTES=(--notes "See CHANGELOG.md for what changed. Install from the Homebrew Channel (repository: https://raw.githubusercontent.com/batmanrises/slopium/main/repo/apps.json) or download the .ipk below. Read DISCLAIMER.md first.")
+            NOTES=(--notes "See CHANGELOG.md for what changed. Install from the Homebrew Channel (repository: https://raw.githubusercontent.com/z3d6380/slopium/main/repo/apps.json) or download the .ipk below. Read DISCLAIMER.md first.")
           fi
           gh release create "$TAG" build/*.ipk build/*.manifest.json \
             --target "$GITHUB_SHA" \
