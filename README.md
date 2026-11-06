@@ -72,15 +72,20 @@ One thing to keep in mind: both launchers can offer **"replace LG Home"** (Optio
 | Where | Key | Does |
 |---|---|---|
 | Home | ← → | Move along the row |
-| Home | OK | Open the app (the last tiles are LG Home, System Settings and Slopium Settings) |
+| Home | OK | Open the app. The last tiles are LG Home, System and Slopium Settings |
 | Home | hold OK | The app's menu: move it, hide it, uninstall it |
 | Home | **Back** | Open the **Recent apps** panel |
 | Recent apps | ← → / OK / hold OK / ↑ | Choose / open / close that app / jump to **Close all** |
 | Settings | ← → on the tab bar | Apps, Sources, Look, Clock, Weather, Wallpaper, Options |
 | Settings | OK, or ← → | OK steps through choices; ← → nudge numbers |
+| System | ← → on the tab bar | Picture, Sound, Network, General, Support |
+| System | OK, or ← → | OK toggles a switch or steps a choice; ← → changes the value |
+| System | Back | Close System and return to the home row |
 | Anywhere else | Back | Go back one screen |
 
 Useful settings: **Look** has the Recent apps panel width and height and the quiet-mode movement choice; **Clock** has the clock style, thickness, theme and accent; **Wallpaper** has the picture or slideshow, interval and shuffle.
+
+**System** (the TV tile on the home row) is Slopium's own picture, sound, network and general pages. It uses the same type, tabs and rows as Settings, and it follows the theme and the settings-background slider. Channels, accounts and the rest of the TV's menu stay one row away, under Support → LG settings. A readout of processor, memory and storage is not on these pages yet.
 
 ### Settings a fresh install starts with
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- **System opens in Slopium.** The System tile on the home row used to launch the TV's own settings app. It now opens Picture, Sound, Network, General and Support in the same type, tabs and rows as Slopium Settings. Left and right change a value, OK toggles a switch, and Back returns to the home row. Support still has a row that opens the TV's own menu for channels, accounts and the rest. Processor, memory and storage readouts are not part of this change.
+
 ## 1.0.2: Home button and saved layout
 
 - **The Home button opens Slopium directly on webOS TVs whose Home app is Flutter** (this includes webOS 11). Slopium is mounted in Home's place and the app manager is asked to reread that one app. LG's own Home files stay underneath, and Restore puts them back. The older watcher remains the fallback when a TV cannot reread Home.
