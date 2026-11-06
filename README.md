@@ -85,7 +85,9 @@ One thing to keep in mind: both launchers can offer **"replace LG Home"** (Optio
 
 Useful settings: **Look** has the Recent apps panel width and height and the quiet-mode movement choice; **Clock** has the clock style, thickness, theme and accent; **Wallpaper** has the picture or slideshow, interval and shuffle.
 
-**System** (the TV tile on the home row) is Slopium's own picture, sound, network and general pages. It uses the same type, tabs and rows as Settings, and it follows the theme and the settings-background slider. Channels, accounts and the rest of the TV's menu stay one row away, under Support → LG settings. A readout of processor, memory and storage is not on these pages yet.
+**System** (the TV tile on the home row) is Slopium's own picture, sound, network and general pages. It uses the same type, tabs and rows as Settings, and it follows the theme and the settings-background slider. Channels, accounts and the rest of the TV's menu stay one row away, under Support → LG settings.
+
+**Status** (Settings → Status) is a quiet row on the home screen: the network icon, processor, memory in use, and free app storage. Each reading can be turned off, and the row can be resized and moved like the clock. It hides while the screen is resting. The network name stays off until you turn it on. The row does not turn Wi-Fi on or off.
 
 ### Settings a fresh install starts with
 
