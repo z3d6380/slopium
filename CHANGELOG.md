@@ -4,6 +4,7 @@
 
 - **System opens in Slopium.** The System tile on the home row used to launch the TV's own settings app. It now opens Picture, Sound, Network, General and Support in the same type, tabs and rows as Slopium Settings. Left and right change a value, OK toggles a switch, and Back returns to the home row. Support still has a row that opens the TV's own menu for channels, accounts and the rest. Processor, memory and storage readouts are not part of this change.
 - **Status row.** Settings → Status shows a quiet row on the home screen: a network icon, processor, memory in use, and free space on the TV's app storage. Each one can be turned off. Size and position work like the clock. The row hides while the screen is resting, and it does not turn Wi-Fi on or off. The network name is off until it is switched on.
+- **Privacy.** Settings → Options → Privacy opens the Life's Good Without Spying switches inside Slopium (MIT, Lewis Wood). Apply writes the hosts list, DNS filter, service stubs, and the early firmware-update stop, then says Applied and stays idle until a switch changes. A boot script puts the same apply back after a restart.
 
 ## 1.0.2: Home button and saved layout
 

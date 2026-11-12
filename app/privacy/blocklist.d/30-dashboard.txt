@@ -1,0 +1,56 @@
+# LG ACR / recommendations / home dashboard. Toggle: domains.dashboard
+recommend.lgtvcommon.com
+service.lgtvcommon.com
+homeprv.lgtvcommon.com
+nudge.lgtvcommon.com
+rdl.lgtvcommon.com
+cdplauncher.lgtvcommon.com
+cdpbeacon.lgtvcommon.com
+cdpsvc.lgtvcommon.com
+rdx2.lgtvsdp.com
+us.rdx2.lgtvsdp.com
+# livepick (LG's ACR shopping nudge) reports to TheTake
+thetake.com
+# Region-prefixed twins of the beacons above.
+aic.cdpbeacon.lgtvcommon.com
+eic.cdpbeacon.lgtvcommon.com
+kic.cdpbeacon.lgtvcommon.com
+ruc.cdpbeacon.lgtvcommon.com
+# Second-generation ad beacon (reporting config, video-event beacons)
+aic.cdpbeacon2.lgtvcommon.com
+eic.cdpbeacon2.lgtvcommon.com
+kic.cdpbeacon2.lgtvcommon.com
+aic.cdplauncher.lgtvcommon.com
+eic.cdplauncher.lgtvcommon.com
+kic.cdplauncher.lgtvcommon.com
+aic.recommend.lgtvcommon.com
+eic.recommend.lgtvcommon.com
+kic.recommend.lgtvcommon.com
+ruc.recommend.lgtvcommon.com
+aic.nudge.lgtvcommon.com
+eic.nudge.lgtvcommon.com
+aic.homeprv.lgtvcommon.com
+eic.homeprv.lgtvcommon.com
+aic.rdl.lgtvcommon.com
+eic.rdl.lgtvcommon.com
+aic.service.lgtvcommon.com
+eic.service.lgtvcommon.com
+aic.wiseconfig.lgtvcommon.com
+eic.wiseconfig.lgtvcommon.com
+wiseconfig.lgtvcommon.com
+pnv.lgtvcommon.com
+wiseresource.lgtvcommon.com
+qcardservice.lgtvcommon.com
+# SDP-tree tracking/config
+tracking.lgtvsdp.com
+config.lgtvsdp.com
+# Regional and macro-region hosts (verified resolving 2026-09-16)
+kic.homeprv.lgtvcommon.com
+kic.nudge.lgtvcommon.com
+kic.rdl.lgtvcommon.com
+kic.service.lgtvcommon.com
+kic.wiseconfig.lgtvcommon.com
+ruc.homeprv.lgtvcommon.com
+ruc.nudge.lgtvcommon.com
+ruc.service.lgtvcommon.com
+ruc.wiseconfig.lgtvcommon.com

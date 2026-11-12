@@ -89,6 +89,8 @@ Useful settings: **Look** has the Recent apps panel width and height and the qui
 
 **Status** (Settings → Status) is a quiet row on the home screen: the network icon, processor, memory in use, and free app storage. Each reading can be turned off, and the row can be resized and moved like the clock. It hides while the screen is resting. The network name stays off until you turn it on. The row does not turn Wi-Fi on or off.
 
+**Privacy** (Settings → Options → Privacy) is the Life's Good Without Spying switches, drawn as Slopium rows: host blocks, voice and ad services, the DNS filter, IPv6, and the NTP clock. The firmware switch also stops the update service early. Apply writes those switches, then says Applied and stays idle until a switch changes. A boot script puts the same apply back after a restart.
+
 ### Settings a fresh install starts with
 
 A new install (no saved settings yet) opens with this look. Everything can be changed in Settings, and an existing install keeps its own settings.

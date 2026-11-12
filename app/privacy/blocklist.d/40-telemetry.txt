@@ -1,0 +1,84 @@
+# LG crash-upload / APM telemetry. Toggle: domains.telemetry
+# SDP clock and service hosts live in 45-sdp.txt (domains.sdp).
+# Elastic/APM telemetry (app.lgwebostv.com, the Content Store interface, is in
+# 32-lgrecommends.txt)
+gb.elastic.lgwebostv.com
+elastic.lgwebostv.com
+eic-rum.elsa.lgecloudapm.com
+lgecloudapm.com
+# OCP usage uploads (usage counters, picture settings, pixel-refresh stats).
+# Also listed in 50-thinq.txt; collect_domains drops the duplicates.
+aic-ocp.lgtviot.com
+eic-ocp.lgtviot.com
+kic-ocp.lgtviot.com
+# Regional APM hosts (verified resolving 2026-09-16)
+ae.elastic.lgwebostv.com
+ar.elastic.lgwebostv.com
+at.elastic.lgwebostv.com
+au.elastic.lgwebostv.com
+bd.elastic.lgwebostv.com
+be.elastic.lgwebostv.com
+bg.elastic.lgwebostv.com
+br.elastic.lgwebostv.com
+by.elastic.lgwebostv.com
+ca.elastic.lgwebostv.com
+ch.elastic.lgwebostv.com
+cl.elastic.lgwebostv.com
+cn.elastic.lgwebostv.com
+co.elastic.lgwebostv.com
+cy.elastic.lgwebostv.com
+cz.elastic.lgwebostv.com
+de.elastic.lgwebostv.com
+dk.elastic.lgwebostv.com
+ee.elastic.lgwebostv.com
+eg.elastic.lgwebostv.com
+es.elastic.lgwebostv.com
+fi.elastic.lgwebostv.com
+fr.elastic.lgwebostv.com
+gr.elastic.lgwebostv.com
+hk.elastic.lgwebostv.com
+hr.elastic.lgwebostv.com
+hu.elastic.lgwebostv.com
+id.elastic.lgwebostv.com
+ie.elastic.lgwebostv.com
+il.elastic.lgwebostv.com
+in.elastic.lgwebostv.com
+is.elastic.lgwebostv.com
+it.elastic.lgwebostv.com
+jp.elastic.lgwebostv.com
+ke.elastic.lgwebostv.com
+kr.elastic.lgwebostv.com
+kw.elastic.lgwebostv.com
+kz.elastic.lgwebostv.com
+lk.elastic.lgwebostv.com
+lt.elastic.lgwebostv.com
+lu.elastic.lgwebostv.com
+lv.elastic.lgwebostv.com
+mt.elastic.lgwebostv.com
+mx.elastic.lgwebostv.com
+my.elastic.lgwebostv.com
+ng.elastic.lgwebostv.com
+nl.elastic.lgwebostv.com
+no.elastic.lgwebostv.com
+nz.elastic.lgwebostv.com
+pe.elastic.lgwebostv.com
+ph.elastic.lgwebostv.com
+pk.elastic.lgwebostv.com
+pl.elastic.lgwebostv.com
+pt.elastic.lgwebostv.com
+qa.elastic.lgwebostv.com
+ro.elastic.lgwebostv.com
+rs.elastic.lgwebostv.com
+ru.elastic.lgwebostv.com
+sa.elastic.lgwebostv.com
+se.elastic.lgwebostv.com
+sg.elastic.lgwebostv.com
+si.elastic.lgwebostv.com
+sk.elastic.lgwebostv.com
+th.elastic.lgwebostv.com
+tr.elastic.lgwebostv.com
+tw.elastic.lgwebostv.com
+ua.elastic.lgwebostv.com
+us.elastic.lgwebostv.com
+vn.elastic.lgwebostv.com
+za.elastic.lgwebostv.com

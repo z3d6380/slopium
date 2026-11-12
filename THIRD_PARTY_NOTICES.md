@@ -14,6 +14,7 @@ The MIT licence in [LICENSE](LICENSE) covers this project's own code and its log
 | [Simple LG Launcher](https://github.com/fardroid/Simple-LG-launcher) by fardroid | not checked | Inspiration for the weather widget. No code or assets are claimed to be taken from it. |
 | [Glasshouse](https://github.com/rorygallagher2024/glasshouse) by Rory Gallagher | MIT (© 2026 Rory Gallagher) | The idea of the **Recent apps panel** (Back on the home screen, "Close all") and the TV services it calls. Licence text: `app/licenses/Glasshouse-MIT.txt`. |
 | [webOS Brew / Homebrew Channel](https://github.com/webosbrew/webos-homebrew-channel) | MIT | The root access and `exec` service that every rooted feature runs on. Not bundled. |
+| [Life's Good Without Spying](https://github.com/lewisdoesstuff/lifesgoodwithoutspying) by Lewis Wood | MIT (© 2026 Lewis Wood) | The privacy engine and block lists in `app/privacy/`. Slopium uses its own file names. Licence text: `app/licenses/LifesGood-MIT.txt`. |
 
 ## Bundled software and assets
 

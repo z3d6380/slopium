@@ -82,7 +82,7 @@
   function covered() {
     if (preview) return false;
     if (document.hidden) return true;
-    if (document.querySelector(".slopium-system, .screen--settings, .screen--picker, .screen--recents, .screen--dialog")) return true;
+    if (document.querySelector(".slopium-system, .slopium-privacy, .screen--settings, .screen--picker, .screen--recents, .screen--dialog")) return true;
     if (document.querySelector(".screen--qhide, .rows--quiet")) return true;
     return false;
   }
