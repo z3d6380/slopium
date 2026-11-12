@@ -46,6 +46,13 @@
     " print(t[i:] if i>=0 else '{}')",
     "except Exception:",
     " print('{}')",
+    "try:",
+    " w=subprocess.run(['luna-send','-n','1','-w','2500','luna://com.webos.service.wifi/getstatus','{}'],capture_output=True,text=True,timeout=4)",
+    " wt=(w.stdout or '').strip()",
+    " wi=wt.find('{')",
+    " print(wt[wi:] if wi>=0 else '{}')",
+    "except Exception:",
+    " print('{}')",
   ].join("\n");
 
   function el(tag, className) {
@@ -138,14 +145,15 @@
     k.textContent = label;
     var v = el("div", "mx__v");
     v.textContent = value;
-    var bar = el("div", "mx__bar");
-    var fill = el("span");
-    var pct = typeof used === "number" ? Math.max(0, Math.min(100, used)) : 0;
-    fill.style.width = pct + "%";
-    bar.appendChild(fill);
     node.appendChild(k);
     node.appendChild(v);
-    node.appendChild(bar);
+    if (typeof used === "number") {
+      var bar = el("div", "mx__bar");
+      var fill = el("span");
+      fill.style.width = Math.max(0, Math.min(100, used)) + "%";
+      bar.appendChild(fill);
+      node.appendChild(bar);
+    }
     return node;
   }
 
@@ -189,6 +197,8 @@
         wrap.appendChild(name);
       }
       row.appendChild(wrap);
+      if (typeof net.signal === "number") row.appendChild(cell("Wi-Fi", net.signal + "%", net.signal));
+      else if (net.kind === "ethernet" && up) row.appendChild(cell("LAN", "Up", null));
     }
     if (cfg.cpu) row.appendChild(cell("CPU", data.cpuPct == null ? "—" : data.cpuPct + "%", data.cpuPct || 0));
     if (cfg.mem) row.appendChild(cell("RAM", data.memPct == null ? "—" : data.memPct + "%", data.memPct || 0));
@@ -216,21 +226,24 @@
     render();
   }
 
-  function parseNet(msg) {
+  function parseNet(msg, wifiMsg) {
     var wifi = msg && msg.wifi || {};
     var wired = msg && msg.wired || {};
+    var info = wifiMsg && wifiMsg.networkInfo || {};
+    var signal = typeof info.signalLevel === "number" ? info.signalLevel : null;
     if (wired.state === "connected") {
-      return { kind: "ethernet", up: true, internet: msg.isInternetConnectionAvailable !== false, name: "" };
+      return { kind: "ethernet", up: true, internet: msg.isInternetConnectionAvailable !== false, name: "", signal: null };
     }
     if (wifi.state === "connected") {
       return {
         kind: "wifi",
         up: true,
         internet: wifi.onInternet === "yes" || msg.isInternetConnectionAvailable === true,
-        name: wifi.ssid || wifi.displayName || ""
+        name: wifi.ssid || wifi.displayName || "",
+        signal: signal
       };
     }
-    return { kind: "wifi", up: false, internet: false, name: "" };
+    return { kind: "wifi", up: false, internet: false, name: "", signal: null };
   }
 
   function exec(command) {
@@ -273,16 +286,18 @@
       var lines = String(out || "").split("\n").map(function (line) { return line.trim(); }).filter(Boolean);
       var stats = null;
       var netMsg = null;
+      var wifiMsg = null;
       var i;
       for (i = 0; i < lines.length; i++) {
         if (lines[i].charAt(0) !== "{") continue;
         try {
           var parsed = JSON.parse(lines[i]);
           if (parsed && parsed.cpu) stats = parsed;
-          else if (parsed && (parsed.wifi || parsed.wired || parsed.returnValue)) netMsg = parsed;
+          else if (parsed && parsed.networkInfo) wifiMsg = parsed;
+          else if (parsed && (parsed.wifi || parsed.wired)) netMsg = parsed;
         } catch (e) {}
       }
-      if (stats) applySample(stats.cpu, stats.mem, stats.disk, netMsg ? parseNet(netMsg) : snap && snap.net);
+      if (stats) applySample(stats.cpu, stats.mem, stats.disk, netMsg ? parseNet(netMsg, wifiMsg) : snap && snap.net);
       schedule();
     }, function () {
       busy = false;
@@ -336,7 +351,7 @@
     if (preview) {
       cfg = readCfg();
       cfg.on = true;
-      applySample([200, 100], [2018728, 578624], [6180319232, 3621597184], { kind: "wifi", up: true, internet: true, name: "Home Wi-Fi" });
+      applySample([200, 100], [2018728, 578624], [6180319232, 3621597184], { kind: "wifi", up: true, internet: true, name: "Home Wi-Fi", signal: 81 });
       snap.cpuPct = 14;
       render();
       return;

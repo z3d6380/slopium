@@ -1,10 +1,11 @@
 # Changelog
 
-## Unreleased
+## 1.0.3: system settings, status, and privacy
 
-- **System opens in Slopium.** The System tile on the home row used to launch the TV's own settings app. It now opens Picture, Sound, Network, General and Support in the same type, tabs and rows as Slopium Settings. Left and right change a value, OK toggles a switch, and Back returns to the home row. Support still has a row that opens the TV's own menu for channels, accounts and the rest. Processor, memory and storage readouts are not part of this change.
-- **Status row.** Settings → Status shows a quiet row on the home screen: a network icon, processor, memory in use, and free space on the TV's app storage. Each one can be turned off. Size and position work like the clock. The row hides while the screen is resting, and it does not turn Wi-Fi on or off. The network name is off until it is switched on.
-- **Privacy.** Settings → Options → Privacy opens the Life's Good Without Spying switches inside Slopium (MIT, Lewis Wood). Apply writes the hosts list, DNS filter, service stubs, and the early firmware-update stop, then says Applied and stays idle until a switch changes. A boot script puts the same apply back after a restart.
+- **System opens in Slopium.** The System tile opens Picture, Sound, Network, General, and Support in the same rows as Slopium Settings. Support still has a row that opens the TV's own menu for channels, accounts, and the rest.
+- **Status row.** Settings → Status shows a quiet row on the home screen: a connection icon, Wi-Fi signal, processor, memory in use, and free space on the TV's app storage. Each one can be turned off. Size and position work like the clock. The row hides while the screen is resting. It does not turn Wi-Fi on or off.
+- **Privacy.** Settings → Options → Privacy applies the Life's Good Without Spying switches (MIT, Lewis Wood): host blocks, the DNS filter, service stubs, and the early firmware-update stop. Apply says Applied and stays idle until a switch changes. Profiles are Max, Strong (recommended), Normal, Minimum, and Off. A boot script puts the same apply back after a restart.
+- **LG Apps and LG Home.** The Apps store is in the app list. Turn Privacy → Content Store off for it to open. The LG Home tile can be hidden like any other app.
 
 ## 1.0.2: Home button and saved layout
 

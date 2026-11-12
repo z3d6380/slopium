@@ -18,7 +18,7 @@
         ["domains.sdp", "LG service platform", "Breaks the Content Store. With NTP on, this is blocked from boot."],
         ["domains.wiselg", "App usage", "Breaks Home previews."],
         ["domains.thinq", "ThinQ", "Also stops the ThinQ services. Breaks the ThinQ app."],
-        ["domains.lgrecommends", "Content Store", "Breaks the Content Store."],
+        ["domains.lgrecommends", "Content Store", "Turn this off for the Apps store to open."],
         ["domains.lgchannels", "LG Channels", "Breaks LG Channels."],
         ["domains.quickset", "Remote codes", "Breaks remote setup."],
         ["domains.updates", "Firmware updates", "Breaks firmware updates, and stops the update service before boot finishes."]
@@ -46,6 +46,95 @@
       ]
     }
   ];
+
+  function allKeys() {
+    var keys = [];
+    PAGES.forEach(function (page) {
+      page.rows.forEach(function (row) { keys.push(row[0]); });
+    });
+    return keys;
+  }
+
+  function fill(onKeys) {
+    var values = {};
+    allKeys().forEach(function (key) { values[key] = onKeys.indexOf(key) !== -1; });
+    return values;
+  }
+
+  var PROFILES = [
+    { id: "max", label: "Max", detail: "Every switch on.", values: fill(allKeys()) },
+    {
+      id: "strong",
+      label: "Strong (recommended)",
+      detail: "The recommended set. The Apps store stays blocked until Content Store is turned off.",
+      values: fill(["domains.acr", "domains.smartad", "domains.dashboard", "domains.telemetry", "domains.sdp", "domains.wiselg", "domains.thinq", "domains.lgrecommends", "domains.lgchannels", "domains.updates", "voice.stop", "ads.stop", "purge.boot", "dns.filter", "dns.disable_ipv6", "clock.ntp"])
+    },
+    {
+      id: "normal",
+      label: "Normal",
+      detail: "Ads, recognition, telemetry, voice, and the service platform. The Apps store, channels, and updates stay available.",
+      values: fill(["domains.acr", "domains.smartad", "domains.dashboard", "domains.telemetry", "domains.sdp", "voice.stop", "ads.stop", "purge.boot"])
+    },
+    {
+      id: "minimum",
+      label: "Minimum",
+      detail: "Ad delivery and content recognition only.",
+      values: fill(["domains.acr", "domains.smartad", "ads.stop"])
+    },
+    { id: "off", label: "Off", detail: "Every switch off.", values: fill([]) }
+  ];
+
+  function profileId() {
+    var i, key, profile, match;
+    for (i = 0; i < PROFILES.length; i++) {
+      profile = PROFILES[i];
+      match = true;
+      for (key in profile.values) {
+        if (!!state.values[key] !== !!profile.values[key]) { match = false; break; }
+      }
+      if (match) return profile.id;
+    }
+    return "custom";
+  }
+
+  function profileById(id) {
+    var i;
+    for (i = 0; i < PROFILES.length; i++) if (PROFILES[i].id === id) return PROFILES[i];
+    return null;
+  }
+
+  function profileDetail() {
+    var id = profileId();
+    var profile = profileById(id);
+    if (!profile) return "These switches do not match a profile. Left and right choose one and apply it.";
+    return profile.detail;
+  }
+
+  function profileLabel() {
+    var profile = profileById(profileId());
+    return profile ? profile.label : "Custom";
+  }
+
+  function pageRows() {
+    if (state.tab === PAGES.length) return [["apply", "Apply these switches", applyDetail()]];
+    var page = PAGES[state.tab];
+    if (page.id === "hosts") return [["profile", "Profile", profileDetail()]].concat(page.rows);
+    return page.rows;
+  }
+
+  function stepProfile(dir) {
+    if (state.busy) return;
+    var ids = PROFILES.map(function (profile) { return profile.id; });
+    var index = ids.indexOf(profileId());
+    if (index < 0) index = dir > 0 ? -1 : 0;
+    var next = profileById(ids[(index + dir + ids.length) % ids.length]);
+    var key;
+    state.values = {};
+    for (key in next.values) state.values[key] = next.values[key];
+    state.note = "";
+    if (!dirty()) { render(); return; }
+    runApply();
+  }
 
   var state = null;
   var root = null;
@@ -196,7 +285,7 @@
     tabs.appendChild(applyTab);
     var list = el("div", "options");
     var track = el("div", "options__track");
-    var rows = state.tab === PAGES.length ? [["apply", "Apply these switches", applyDetail(), "Open"]] : page.rows;
+    var rows = pageRows();
     rows.forEach(function (row, index) {
       var focused = state.zone === "rows" && index === state.row;
       var locked = row[0] === "apply" && !dirty() && !state.busy;
@@ -209,9 +298,21 @@
       description.textContent = row[2];
       text.appendChild(description);
       node.appendChild(text);
-      if (row[0] === "apply") {
+      if (row[0] === "apply" || row[0] === "profile") {
         var value = el("div", "option__value");
-        value.textContent = state.busy ? "Applying" : (dirty() ? "Run" : "Applied");
+        if (row[0] === "profile") {
+          var left = el("span", "option__chevron");
+          left.textContent = "‹";
+          var valueText = el("span", "option__value-text");
+          valueText.textContent = profileLabel();
+          var right = el("span", "option__chevron");
+          right.textContent = "›";
+          value.appendChild(left);
+          value.appendChild(valueText);
+          value.appendChild(right);
+        } else {
+          value.textContent = state.busy ? "Applying" : (dirty() ? "Run" : "Applied");
+        }
         node.appendChild(value);
       } else {
         var on = !!state.values[row[0]];
@@ -326,10 +427,8 @@
   }
 
   function toggle() {
-    var page = PAGES[state.tab];
-    if (!page) return;
-    var row = page.rows[state.row];
-    if (!row || state.busy) return;
+    var row = pageRows()[state.row];
+    if (!row || row[0] === "profile" || row[0] === "apply" || state.busy) return;
     var key = row[0];
     var previous = !!state.values[key];
     state.values[key] = !previous;
@@ -363,13 +462,15 @@
   }
 
   function activate() {
-    if (state.tab === PAGES.length) runApply();
+    var row = pageRows()[state.row];
+    if (!row) return;
+    if (row[0] === "apply") runApply();
+    else if (row[0] === "profile") stepProfile(1);
     else toggle();
   }
 
   function rowCount() {
-    if (state.tab === PAGES.length) return 1;
-    return PAGES[state.tab].rows.length;
+    return pageRows().length;
   }
 
   function move(act) {
@@ -382,7 +483,9 @@
         render();
         return;
       }
-      if (state.tab !== PAGES.length) toggle();
+      var row = pageRows()[state.row];
+      if (row && row[0] === "profile") stepProfile(act === "right" ? 1 : -1);
+      else if (row && row[0] !== "apply") toggle();
       return;
     }
     if (act === "up") {
