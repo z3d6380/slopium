@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.4: memory, smoother menus, and a steady Home button
+
+- **Memory.** Settings → Options → Memory lists each app. Off, the usual choice, unloads an app the TV started on its own and keeps it unloaded until you open it. On lets that app stay loaded. An app you opened and left by going Home stays either way. A boot script keeps the choice.
+- **Menus glide.** A long list, such as Memory, slides to the next row instead of snapping. The highlight settles in one place and the rows move past it.
+- **Status can stay while resting.** Settings → Status → Keep while resting leaves the status row on screen with the clock and weather when the menu hides. It is off until you turn it on.
+- **Home button.** Pressing Home while Slopium is already showing no longer reloads the page. The older helper that opened the tile on top of Home stays off once Slopium is mounted in Home's place.
+- **Privacy and AmazOff.** The ad and voice stand-ins no longer quit when a request arrives empty. If AmazOff is installed, Apply keeps Prime's artwork name in the hosts file.
+
 ## 1.0.3: system settings, status, and privacy
 
 - **System opens in Slopium.** The System tile opens Picture, Sound, Network, General, and Support in the same rows as Slopium Settings. Support still has a row that opens the TV's own menu for channels, accounts, and the rest.

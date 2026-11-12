@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=1920, initial-scale=1.0" />
     <title>Home</title>
     <style>html, body { margin: 0; background: #000; }</style>
+    <script>
+      document.addEventListener("webOSRelaunch", function () {
+        var sys = window.PalmSystem || window.webOSSystem;
+        try { if (sys && sys.activate) sys.activate(); } catch (e) {}
+      });
+    </script>
     <script src="./assets/config-seed.js"></script>
     <script src="./assets/persist.js"></script>
     <script defer src="./assets/wallpapers.js"></script>
@@ -12,6 +18,7 @@
     <script defer src="./assets/system.js"></script>
     <script defer src="./assets/metrics.js"></script>
     <script defer src="./assets/privacy.js"></script>
+    <script defer src="./assets/memory.js"></script>
     <script defer src="./assets/app.js"></script>
   </head>
   <body>

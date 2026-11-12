@@ -98,7 +98,7 @@ info = {
     "resolution": "1920x1080",
     "visible": False,
     "disableBackHistoryAPI": True,
-    "handlesRelaunch": False,
+    "handlesRelaunch": True,
     "noSplashOnLaunch": True,
     "spinnerOnLaunch": False,
     "transparent": False,

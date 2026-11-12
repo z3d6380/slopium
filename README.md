@@ -87,9 +87,11 @@ Useful settings: **Look** has the Recent apps panel width and height and the qui
 
 **System** (the TV tile on the home row) is Slopium's own picture, sound, network and general pages. It uses the same type, tabs and rows as Settings, and it follows the theme and the settings-background slider. Channels, accounts and the rest of the TV's menu stay one row away, under Support → LG settings.
 
-**Status** (Settings → Status) is a quiet row on the home screen: the network icon, processor, memory in use, and free app storage. Each reading can be turned off, and the row can be resized and moved like the clock. It hides while the screen is resting. The network name stays off until you turn it on. The row does not turn Wi-Fi on or off.
+**Status** (Settings → Status) is a quiet row on the home screen: the network icon, processor, memory in use, and free app storage. Each reading can be turned off, and the row can be resized and moved like the clock. It hides while the screen is resting, unless Keep while resting is on. The network name stays off until you turn it on. The row does not turn Wi-Fi on or off.
 
-**Privacy** (Settings → Options → Privacy) is the Life's Good Without Spying switches, drawn as Slopium rows: host blocks, voice and ad services, the DNS filter, IPv6, and the NTP clock. The firmware switch also stops the update service early. Apply writes those switches, then says Applied and stays idle until a switch changes. A boot script puts the same apply back after a restart.
+**Privacy** (Settings → Options → Privacy) is the Life's Good Without Spying switches, drawn as Slopium rows: host blocks, voice and ad services, the DNS filter, IPv6, and the NTP clock. The firmware switch also stops the update service early. Apply writes those switches, then says Applied and stays idle until a switch changes. A boot script puts the same apply back after a restart. If AmazOff is installed, Apply keeps Prime's artwork line in the hosts file.
+
+**Memory** (Settings → Options → Memory) chooses which apps may stay loaded when you have not opened them. Off, the usual choice, unloads an app the TV started on its own and leaves it unloaded until the next time you open it. An app you opened and left by going Home stays either way.
 
 ### Settings a fresh install starts with
 

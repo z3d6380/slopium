@@ -2,6 +2,38 @@
    Saving writes Slopium's own copy. Apply does nothing while Life's Good
    is still the boot applier, so the two do not rewrite the same hosts file. */
 (function () {
+  var glide = { track: null, y: 0, goal: 0, raf: 0, last: 0 };
+  function frame(now) {
+    glide.raf = 0;
+    var track = glide.track;
+    if (!track || !track.parentNode) return;
+    var dt = glide.last ? Math.min(48, now - glide.last) : 16;
+    glide.last = now;
+    var next = glide.y + (glide.goal - glide.y) * (1 - Math.exp(-dt / 180));
+    if (Math.abs(glide.goal - next) < 0.4) next = glide.goal;
+    else glide.raf = window.requestAnimationFrame(frame);
+    glide.y = next;
+    track.style.transform = "translateY(" + (-next) + "px)";
+  }
+  window.SlopiumGlide = {
+    to: function (track, y) {
+      if (!track) return;
+      y = Math.round(y);
+      if (glide.track !== track) {
+        glide.track = track;
+        glide.y = y;
+        glide.goal = y;
+        glide.last = 0;
+        if (glide.raf) { window.cancelAnimationFrame(glide.raf); glide.raf = 0; }
+        track.style.transform = "translateY(" + (-y) + "px)";
+        return;
+      }
+      glide.goal = y;
+      if (!glide.raf) glide.raf = window.requestAnimationFrame(frame);
+    }
+  };
+})();
+(function () {
   "use strict";
 
   var EXEC = "luna://org.webosbrew.hbchannel.service/exec";
@@ -359,15 +391,33 @@
     if (!tabs || !list || !track) return;
     list.style.height = Math.max(360, window.innerHeight - tabs.getBoundingClientRect().bottom - 52) + "px";
     if (state.zone !== "rows") {
-      track.style.transform = "translateY(0)";
+      window.SlopiumGlide.to(track, 0);
       return;
     }
     var row = track.children[state.row];
     if (!row) return;
     var view = list.clientHeight;
-    var target = row.offsetTop - (view - row.offsetHeight) / 2;
+    var anchor = Math.round(Math.min(view * 0.34, 220));
+    var top = row.offsetTop;
+    var y = Math.max(0, top - anchor);
     var max = Math.max(0, track.scrollHeight - view);
-    track.style.transform = "translateY(" + (-Math.max(0, Math.min(max, target))) + "px)";
+    var bottom = top + row.offsetHeight;
+    if (row.offsetHeight < view && bottom - y > view - 12) y = bottom - (view - 12);
+    window.SlopiumGlide.to(track, Math.max(0, Math.min(max, y)));
+  }
+
+  function follow() {
+    if (!root) return;
+    var rows = pageRows();
+    var nodes = root.querySelectorAll(".options__track .option");
+    var i;
+    for (i = 0; i < nodes.length; i++) {
+      var row = rows[i];
+      var focused = state.zone === "rows" && i === state.row;
+      var locked = row && row[0] === "apply" && !dirty() && !state.busy;
+      nodes[i].className = "option" + (focused ? " option--focused" : "") + (locked ? " option--disabled" : "");
+    }
+    layout();
   }
 
   function note(text, sticky) {
@@ -489,17 +539,28 @@
       return;
     }
     if (act === "up") {
-      if (state.zone === "rows" && state.row <= 0) state.zone = "tabs";
-      else if (state.zone === "rows") state.row -= 1;
-      render();
+      if (state.zone === "rows" && state.row <= 0) {
+        state.zone = "tabs";
+        render();
+        return;
+      }
+      if (state.zone === "rows") {
+        state.row -= 1;
+        follow();
+      }
       return;
     }
     if (act === "down") {
       if (state.zone === "tabs") {
         state.zone = "rows";
         state.row = 0;
-      } else if (state.row < count - 1) state.row += 1;
-      render();
+        render();
+        return;
+      }
+      if (state.row < count - 1) {
+        state.row += 1;
+        follow();
+      }
       return;
     }
     if (act === "enter") {
@@ -592,6 +653,9 @@
       event.stopImmediatePropagation();
     }
   }, true);
+  document.addEventListener("webOSRelaunch", function () {
+    if (isOpen()) close();
+  });
 
   window.SlopiumPrivacy = { open: open, close: close, isOpen: isOpen };
 })();

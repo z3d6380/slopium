@@ -233,6 +233,14 @@ apply_hosts() {
             echo "0.0.0.0 $domain"
             echo ":: $domain"
         done < "$DOMAINS_TMP"
+        # AmazOff sends Prime's artwork host to its local proxy. Privacy's
+        # hosts file is mounted over /etc/hosts, so the line has to live here.
+        if [ -f /var/lib/webosbrew/amazoff-boot.sh ]; then
+            grep -qxF "127.0.0.1 cloudfront.xp-assets.aiv-cdn.net" "$HOSTS_GEN" \
+                || echo "127.0.0.1 cloudfront.xp-assets.aiv-cdn.net"
+            grep -qxF "::1 cloudfront.xp-assets.aiv-cdn.net" "$HOSTS_GEN" \
+                || echo "::1 cloudfront.xp-assets.aiv-cdn.net"
+        fi
     } >> "$HOSTS_GEN"
 
     # All non-SDP blocks are active immediately. If SDP is enabled, append it

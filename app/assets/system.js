@@ -627,16 +627,19 @@
     var height = Math.max(360, window.innerHeight - tabs.getBoundingClientRect().bottom - 52);
     list.style.height = height + "px";
     if (state.zone !== "rows") {
-      track.style.transform = "translateY(0)";
+      window.SlopiumGlide.to(track, 0);
       return;
     }
     var row = track.children[state.row];
     if (!row) return;
     var view = list.clientHeight;
-    var target = row.offsetTop - (view - row.offsetHeight) / 2;
+    var anchor = Math.round(Math.min(view * 0.34, 220));
+    var top = row.offsetTop;
+    var y = Math.max(0, top - anchor);
     var max = Math.max(0, track.scrollHeight - view);
-    var y = Math.max(0, Math.min(max, target));
-    track.style.transform = "translateY(" + (-y) + "px)";
+    var bottom = top + row.offsetHeight;
+    if (row.offsetHeight < view && bottom - y > view - 12) y = bottom - (view - 12);
+    window.SlopiumGlide.to(track, Math.max(0, Math.min(max, y)));
   }
 
   function stepRange(control, dir) {
@@ -777,7 +780,8 @@
         return;
       }
       state.row -= 1;
-      render();
+      paintFocus();
+      layout();
       return;
     }
     if (act === "down") {
@@ -789,7 +793,8 @@
       }
       if (state.row < count - 1) {
         state.row += 1;
-        render();
+        paintFocus();
+        layout();
       }
       return;
     }
