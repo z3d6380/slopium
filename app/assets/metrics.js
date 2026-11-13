@@ -90,7 +90,7 @@
   function covered() {
     if (preview) return false;
     if (document.hidden) return true;
-    if (document.querySelector(".slopium-system, .slopium-privacy, .slopium-memory, .screen--settings, .screen--picker, .screen--recents, .screen--dialog")) return true;
+    if (document.querySelector(".slopium-system, .slopium-privacy, .slopium-memory, .slopium-hdmiads, .screen--settings, .screen--picker, .screen--recents, .screen--dialog")) return true;
     if (document.querySelector(".rows--quiet, .screen--qhide") && !(cfg && cfg.rest)) return true;
     return false;
   }

@@ -93,6 +93,8 @@ Useful settings: **Look** has the Recent apps panel width and height and the qui
 
 **Memory** (Settings → Options → Memory) chooses which apps may stay loaded when you have not opened them. Off, the usual choice, unloads an app the TV started on its own and leaves it unloaded until the next time you open it. An app you opened and left by going Home stays either way.
 
+**HDMI ads** (Settings → Options → HDMI ads) has a switch for the ad card, the commercial overlay, and the food-delivery card on each HDMI port. Off stops that overlay. The HDMI input stays. A fresh install leaves them off, and a boot script puts the same choice back after a restart. The AI subtitle popup on each port is left alone.
+
 ### Settings a fresh install starts with
 
 A new install (no saved settings yet) opens with this look. Everything can be changed in Settings, and an existing install keeps its own settings.

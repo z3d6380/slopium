@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5: HDMI ad overlays
+
+- **HDMI ads.** Settings → Options → HDMI ads has a switch for the ad card, the commercial overlay, and the food-delivery card on HDMI 1 through HDMI 4. Off stops that overlay. The HDMI input stays. They start off, and a boot script puts the choice back after a restart. The AI subtitle popup on each port is left alone.
+
 ## 1.0.4: memory, smoother menus, and a steady Home button
 
 - **Memory.** Settings → Options → Memory lists each app. Off, the usual choice, unloads an app the TV started on its own and keeps it unloaded until you open it. On lets that app stay loaded. An app you opened and left by going Home stays either way. A boot script keeps the choice.
