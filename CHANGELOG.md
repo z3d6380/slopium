@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.6: HDMI input row
+
+- **Input row.** A row of HDMI chips on the home screen. Each chip shows the name the TV has for that port, and whether a cable is in or a picture is coming through. Point and click a chip to open that input. Settings → Status can hide the row, hide a port, show only plugged-in ports, move and resize the row, and keep it up while the screen is resting.
+
 ## 1.0.5: HDMI ad overlays
 
 - **HDMI ads.** Settings → Options → HDMI ads has a switch for the ad card, the commercial overlay, and the food-delivery card on HDMI 1 through HDMI 4. Off stops that overlay. The HDMI input stays. They start off, and a boot script puts the choice back after a restart. The AI subtitle popup on each port is left alone.

@@ -95,6 +95,8 @@ Useful settings: **Look** has the Recent apps panel width and height and the qui
 
 **HDMI ads** (Settings → Options → HDMI ads) has a switch for the ad card, the commercial overlay, and the food-delivery card on each HDMI port. Off stops that overlay. The HDMI input stays. A fresh install leaves them off, and a boot script puts the same choice back after a restart. The AI subtitle popup on each port is left alone.
 
+**Inputs** (Settings → Status) is a row of HDMI chips. Each chip shows the name the TV has for that port, and whether a cable is in or a picture is coming through. Point and click a chip to open that input. Each port can be hidden, the row can be moved and resized like the status row, and it can stay up while the screen is resting.
+
 ### Settings a fresh install starts with
 
 A new install (no saved settings yet) opens with this look. Everything can be changed in Settings, and an existing install keeps its own settings.
