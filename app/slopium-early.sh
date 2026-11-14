@@ -7,6 +7,11 @@ echo "$(date '+%H:%M:%S') early" >> "$LOG"
 
 STAGE=/var/lib/webosbrew/slopium-direct-home/app
 HOMEAPP=/usr/palm/applications/com.webos.app.home
+DIRECT=/var/lib/webosbrew/slopium-direct-home/direct-home.sh
+if [ -f "$DIRECT" ]; then
+    sh "$DIRECT" sync >> "$LOG" 2>&1 \
+        && echo "$(date '+%H:%M:%S') synced home" >> "$LOG"
+fi
 if [ -f "$STAGE/index.html" ] && ! mountpoint -q "$HOMEAPP"; then
     mount --bind "$STAGE" "$HOMEAPP" \
         && echo "$(date '+%H:%M:%S') mounted home" >> "$LOG"

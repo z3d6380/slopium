@@ -75,7 +75,7 @@ for p in sys.argv[1:]:
     except FileNotFoundError:
         pass
 print(h.hexdigest())' \
-    "$SRC/assets/app.js" "$SRC/assets/persist.js" "$SRC/index.html" "$SRC/direct-home.sh"
+    "$SRC/appinfo.json" "$SRC/assets/app.js" "$SRC/assets/persist.js" "$SRC/index.html" "$SRC/direct-home.sh"
 }
 
 write_appinfo() {
@@ -347,13 +347,13 @@ show_home() {
 }
 
 mount_early() {
-  if mounted; then
-    return 0
-  fi
   mkdir -p "$STATE"
   if ! prepare_stage; then
     log "could not stage Slopium before Home started"
     return 1
+  fi
+  if mounted; then
+    return 0
   fi
   if mount --bind "$STAGE" "$HOMEAPP"; then
     log "mounted Slopium before the app manager settled"
@@ -361,6 +361,16 @@ mount_early() {
     return 0
   fi
   log "early mount failed"
+  return 1
+}
+
+slopium_is_up() {
+  front=$(luna getForegroundAppInfo '{}')
+  case "$front" in
+    *'"appId":"com.webos.app.home"'*|*'"appId":"io.github.batmanrises.slopium"'*)
+      return 0
+      ;;
+  esac
   return 1
 }
 
@@ -382,6 +392,11 @@ boot() {
       i=$((i + 1))
       sleep 1
     done
+    if slopium_is_up; then
+      log "Slopium is already on screen"
+      write_seed
+      exit 0
+    fi
     if ! reread || ! home_type_is web; then
       sh "$STATE/direct-home.sh" apply quiet
     else
@@ -389,7 +404,10 @@ boot() {
       write_seed
     fi
     rm -f "$STATE/just-mounted"
-    raise_slopium
+    if slopium_is_up; then
+      log "Slopium is already on screen"
+      exit 0
+    fi
     show_home
   ) </dev/null >> "$LOG" 2>&1 &
   exit 0
@@ -399,6 +417,14 @@ maybe_update_self "$@"
 
 case ${1:-boot} in
   boot) boot ;;
+  sync)
+    prepare_stage
+    install_hooks
+    if ! mounted && [ -f "$STAGE/index.html" ]; then
+      mount --bind "$STAGE" "$HOMEAPP" && log "synced and mounted Slopium"
+    fi
+    echo synced
+    ;;
   apply) apply "${2:-launch}" ;;
   write-seed) write_seed ;;
   applied-check)

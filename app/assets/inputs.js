@@ -167,7 +167,7 @@
       var key = "HDMI" + device.port;
       var sig = signal && signal[key] || {};
       var haveSig = !!(signal && signal[key]);
-      var plugged = sig["5v"] === "TRUE" || device.hdmiPlugIn === true || (!haveSig && device.connected === true);
+      var plugged = sig["5v"] === "TRUE" || device.hdmiPlugIn === true;
       var on = sig.signal === "TRUE" || device.hdmiSignalExist === true;
       byPort[device.port] = {
         port: device.port,

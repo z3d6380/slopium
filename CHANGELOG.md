@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.9: one Slopium at boot
+
+- **One copy.** Boot copies the installed Slopium onto the Home button before that screen opens, so the two no longer drift apart after a Homebrew update.
+- **No second open.** If Slopium is already on screen, the boot script leaves it there instead of closing Home and opening it again.
+- **HDMI chips.** A port says Plugged only when the TV reports a cable. A port that is merely marked connected, with no cable, stays Off.
+
 ## 1.0.8: boot hooks
 
 - **Home comes up with Slopium.** Turning on “replace LG Home” installs the boot links for Home, memory, privacy, and HDMI ads, and adds an early hook to Homebrew’s startup script. After a restart that hook mounts Slopium and, when update blocking is on, covers the update program before the rest of startup. It does not change LG’s signed developer-mode script.
