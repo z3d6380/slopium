@@ -16,6 +16,11 @@ if [ -f "$STAGE/index.html" ] && ! mountpoint -q "$HOMEAPP"; then
     mount --bind "$STAGE" "$HOMEAPP" \
         && echo "$(date '+%H:%M:%S') mounted home" >> "$LOG"
 fi
+if [ -x "$STAGE/home-guard.sh" ]; then
+    sh "$STAGE/home-guard.sh" || true
+elif [ -x /media/developer/apps/usr/palm/applications/io.github.batmanrises.slopium/home-guard.sh ]; then
+    sh /media/developer/apps/usr/palm/applications/io.github.batmanrises.slopium/home-guard.sh || true
+fi
 
 CONF=/var/lib/webosbrew/slopium-privacy.conf
 STUB=/var/lib/webosbrew/slopium-privacy.stub

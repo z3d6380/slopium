@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.11: Home stays on the open screen
+
+- **Home button.** Pressing Home while the Slopium app is already open brings that same screen back, instead of loading the Home copy over it. Pressing Home while that Home copy is already showing does not rebuild the page.
+
 ## 1.0.10: one screen for the Home button, and power buttons
 
 - **Home button.** When Slopium is already on screen, Home stays on that same screen. The “start the TV on it” input is the Home screen itself, not a second copy of the app.

@@ -8,24 +8,32 @@
     <script>
       document.addEventListener("webOSRelaunch", function () {
         var sys = window.PalmSystem || window.webOSSystem;
+        var ident = "";
+        try { ident = (window.PalmSystem && window.PalmSystem.identifier) || ""; } catch (e) {}
+        var homePage = ident.indexOf("com.webos.app.home") === 0 || location.pathname.indexOf("/com.webos.app.home/") !== -1;
         function activate() {
           try { if (sys && sys.activate) sys.activate(); } catch (e) {}
         }
-        if (!document.hidden || typeof window.PalmServiceBridge !== "function") {
-          activate();
-          return;
+        function launch(id) {
+          if (typeof window.PalmServiceBridge !== "function") return;
+          var bridge = new window.PalmServiceBridge();
+          bridge.onservicecallback = function () {};
+          bridge.call("luna://com.webos.applicationManager/launch", JSON.stringify({ id: id }));
         }
+        if (!homePage || !document.hidden || typeof window.PalmServiceBridge !== "function") return;
         var bridge = new window.PalmServiceBridge();
         bridge.onservicecallback = function (body) {
           var msg = {};
           try { msg = JSON.parse(body); } catch (e) {}
           var id = msg.appId || "";
-          if (id && id !== "com.webos.app.home") {
+          if (id === "io.github.batmanrises.slopium" || id === "com.webos.app.home") {
+            if (id === "io.github.batmanrises.slopium") launch(id);
+            return;
+          }
+          if (id) {
             var closer = new window.PalmServiceBridge();
             closer.onservicecallback = function () { activate(); };
             closer.call("luna://com.webos.applicationManager/closeByAppId", JSON.stringify({ id: id }));
-          } else {
-            activate();
           }
         };
         bridge.call("luna://com.webos.applicationManager/getForegroundAppInfo", "{}");
