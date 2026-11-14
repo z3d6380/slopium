@@ -5,6 +5,7 @@
 # AirPlay is treated as idle unless it is open, in that keep file, or was on screen.
 DIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
 KEEP=/var/lib/webosbrew/slopium-keep-loaded.txt
+AIR=/var/lib/webosbrew/slopium-airplay.conf
 PIDFILE=/tmp/slopium-resident.pid
 SEEN=/tmp/slopium-resident.seen
 
@@ -55,6 +56,13 @@ cmd_set() {
     grep -vxF "$id" "$KEEP" > "$KEEP.new" || true
     if [ "$on" = "on" ]; then
         echo "$id" >> "$KEEP.new"
+    fi
+    if [ "$id" = "airplay" ]; then
+        if [ "$on" = "on" ]; then
+            echo on > "$AIR"
+        else
+            echo off > "$AIR"
+        fi
     fi
     mv "$KEEP.new" "$KEEP"
     echo saved
@@ -209,7 +217,12 @@ for app in running:
         except Exception:
             pass
 
-air_wanted = fg == "airplay" or "airplay" in keep or bool(seen.get("airplay"))
+air_switch = False
+try:
+    air_switch = open("/var/lib/webosbrew/slopium-airplay.conf").read().strip() == "on"
+except Exception:
+    pass
+air_wanted = air_switch or fg == "airplay" or "airplay" in keep or bool(seen.get("airplay"))
 active = subprocess.run(["systemctl", "is-active", "airplay-adaptor.service"], capture_output=True, text=True)
 adaptor_up = (active.stdout or "").strip() == "active"
 daemon_pids = comm_pids("airplay") + comm_pids("airplay-adaptor")

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.7: AirPlay switch
+
+- **AirPlay.** Settings → Options → AirPlay turns the AirPlay service on or off. On lets an iPhone send video and audio to the TV. Off stops the service so it does not stay in memory. The choice is kept across a restart. AirPlay is no longer a row in Memory.
+
 ## 1.0.6: HDMI input row
 
 - **Input row.** A row of HDMI chips on the home screen. Each chip shows the name the TV has for that port, and whether a cable is in or a picture is coming through. Point and click a chip to open that input. Settings → Status can hide the row, hide a port, show only plugged-in ports, move and resize the row, and keep it up while the screen is resting.

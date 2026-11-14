@@ -189,7 +189,7 @@
       state.loading = false;
       state.rows = String(out || "").split("\n").map(function (line) {
         var p = line.split("\t");
-        if (p.length < 3 || !p[0]) return null;
+        if (p.length < 3 || !p[0] || p[0] === "airplay") return null;
         return { id: p[0], title: p[1], keep: p[2] === "yes" };
       }).filter(Boolean);
       render();
