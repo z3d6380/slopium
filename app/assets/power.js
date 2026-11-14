@@ -1,4 +1,4 @@
-/* Restart and Power off, shown on the home screen when the settings allow. */
+/* Small restart and power icons in the top-right corner of the home screen. */
 (function () {
   "use strict";
 
@@ -30,9 +30,9 @@
       on: p.on !== false,
       reboot: p.reboot !== false,
       shutdown: p.shutdown !== false,
-      size: num(p.size, 70, 160, 10, 100),
-      top: num(p.top, 0, 80, 2, 4),
-      left: num(p.left, 0, 92, 2, 78)
+      size: num(p.size, 70, 140, 10, 100),
+      top: num(p.top, 0, 40, 1, 3),
+      right: num(p.right, 0, 40, 1, 3)
     };
   }
 
@@ -42,23 +42,39 @@
     return false;
   }
 
-  function run(action) {
-    var dir = "/var/lib/webosbrew/slopium-direct-home/app/power.sh";
-    var alt = "/media/developer/apps/usr/palm/applications/io.github.batmanrises.slopium/power.sh";
-    var cmd = "sh " + dir + " " + action + " || sh " + alt + " " + action;
-    if (window.webOS && window.webOS.service && window.webOS.service.request) {
-      window.webOS.service.request("luna://org.webosbrew.hbchannel.service", {
-        method: "exec",
-        parameters: { command: cmd },
-        onSuccess: function () {},
-        onFailure: function () {}
-      });
-      return;
+  function icon(kind) {
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("aria-hidden", "true");
+    var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", "currentColor");
+    path.setAttribute("stroke-width", "1.6");
+    path.setAttribute("stroke-linecap", "round");
+    path.setAttribute("stroke-linejoin", "round");
+    if (kind === "reboot") {
+      path.setAttribute("d", "M20 12a8 8 0 1 1-2.3-5.7");
+      var head = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      head.setAttribute("fill", "none");
+      head.setAttribute("stroke", "currentColor");
+      head.setAttribute("stroke-width", "1.6");
+      head.setAttribute("stroke-linecap", "round");
+      head.setAttribute("stroke-linejoin", "round");
+      head.setAttribute("d", "M20 4v5h-5");
+      svg.appendChild(path);
+      svg.appendChild(head);
+      return svg;
     }
-    if (typeof window.PalmServiceBridge !== "function") return;
-    var bridge = new window.PalmServiceBridge();
-    bridge.onservicecallback = function () {};
-    bridge.call("luna://org.webosbrew.hbchannel.service/exec", JSON.stringify({ command: cmd }));
+    path.setAttribute("d", "M12 3v7");
+    var ring = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    ring.setAttribute("fill", "none");
+    ring.setAttribute("stroke", "currentColor");
+    ring.setAttribute("stroke-width", "1.6");
+    ring.setAttribute("stroke-linecap", "round");
+    ring.setAttribute("d", "M7.1 6.5a7 7 0 1 0 9.8 0");
+    svg.appendChild(path);
+    svg.appendChild(ring);
+    return svg;
   }
 
   function press(action) {
@@ -66,7 +82,7 @@
       window.clearTimeout(armTimer);
       armed = "";
       render();
-      run(action);
+      window.dispatchEvent(new CustomEvent("slopium-power", { detail: action }));
       return;
     }
     armed = action;
@@ -82,13 +98,14 @@
     if (styleNode) return;
     styleNode = el("style");
     styleNode.textContent = [
-      ".pw{position:absolute;z-index:4;left:var(--pw-left,78%);top:var(--pw-top,4%);transform:scale(var(--pw-scale,1));transform-origin:top left;color:var(--color-text-primary,#fff);font-family:var(--font-family,Inter,sans-serif)}",
+      ".pw{position:absolute;z-index:4;right:var(--pw-right,3%);top:var(--pw-top,3%);transform:scale(var(--pw-scale,1));transform-origin:top right;color:var(--color-text-primary,#fff)}",
       ".screen--shift .pw{transform:translate3d(var(--shift-x),var(--shift-y),0) scale(var(--pw-scale,1))}",
       ".pw--hide{opacity:0;pointer-events:none}",
-      ".pw__row{display:flex;gap:8px}",
-      ".pw__b{margin:0;padding:8px 14px;border:0;border-radius:14px;background:var(--color-tile-bg,rgba(8,12,16,.55));box-shadow:0 0 0 1px var(--color-tile-border,rgba(255,255,255,.16));color:inherit;font:inherit;font-size:15px;cursor:pointer}",
-      ".pw__b:focus{outline:none;background:var(--color-tile-bg-focus,rgba(255,255,255,.08))}",
-      ".pw__b--arm{box-shadow:0 0 0 1px var(--color-tile-border-focus,#fff)}"
+      ".pw__row{display:flex;gap:10px}",
+      ".pw__b{display:flex;align-items:center;justify-content:center;width:28px;height:28px;margin:0;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;opacity:.42;cursor:pointer}",
+      ".pw__b svg{width:18px;height:18px;display:block}",
+      ".pw__b:focus{outline:none;opacity:.85}",
+      ".pw__b--arm{opacity:1}"
     ].join("");
     document.head.appendChild(styleNode);
   }
@@ -96,7 +113,8 @@
   function button(action, label) {
     var node = el("button", "pw__b" + (armed === action ? " pw__b--arm" : ""));
     node.type = "button";
-    node.textContent = armed === action ? (action === "reboot" ? "Restart?" : "Power off?") : label;
+    node.setAttribute("aria-label", armed === action ? label + ", press again" : label);
+    node.appendChild(icon(action));
     node.addEventListener("click", function () { press(action); });
     return node;
   }
@@ -109,8 +127,8 @@
     }
     var show = cfg && cfg.on && !covered() && (cfg.reboot || cfg.shutdown);
     root.className = show ? "pw" : "pw pw--hide";
-    root.style.setProperty("--pw-top", (cfg ? cfg.top : 4) + "%");
-    root.style.setProperty("--pw-left", (cfg ? cfg.left : 78) + "%");
+    root.style.setProperty("--pw-top", (cfg ? cfg.top : 3) + "%");
+    root.style.setProperty("--pw-right", (cfg ? cfg.right : 3) + "%");
     root.style.setProperty("--pw-scale", String((cfg ? cfg.size : 100) / 100));
     root.textContent = "";
     if (!show) return;

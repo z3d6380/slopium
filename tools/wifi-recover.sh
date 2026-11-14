@@ -44,7 +44,10 @@ def connected(wifi_body, conn_body):
         return True, state or "wifi"
     if wifi.get("state") == "connected":
         return True, "wifi"
-    return False, state or wifi.get("state") or "down"
+    known = state or wifi.get("state") or ""
+    if not known:
+        return False, "unknown"
+    return False, known
 
 def maybe_wait(state):
     return state in ("connecting", "associating", "associated", "config", "ipConfig")
@@ -55,11 +58,14 @@ if not wifi.get("returnValue") and not conn.get("returnValue"):
     print("wifi status did not answer; left it alone")
     raise SystemExit(0)
 up, why = connected(wifi, conn)
-if not up and maybe_wait(why) and not check_only:
-    time.sleep(20)
+if not up and (maybe_wait(why) or why == "unknown") and not check_only:
+    time.sleep(45)
     wifi = luna("com.webos.service.wifi/getstatus", "{}")
     conn = luna("com.webos.service.connectionmanager/getstatus", "{}")
     up, why = connected(wifi, conn)
+if why == "unknown":
+    print("wifi state unknown; left it alone")
+    raise SystemExit(0)
 if up:
     print("already connected (%s); left it alone" % why)
     raise SystemExit(0)

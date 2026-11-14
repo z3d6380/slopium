@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.12: quieter power icons, Home stays still
+
+- **Home button.** Pressing Home no longer flashes. The extra watcher that pulled the other Slopium copy forward is gone. A press while this screen is already open does nothing.
+- **Power.** Restart and Power off are small icons in the top-right corner, clear of the HDMI chips. Press once, then press the same icon again. They call the TV's own power service.
+- **Wi-Fi.** The boot recovery no longer turns Wi-Fi off when the network status is still unknown.
+
 ## 1.0.11: Home stays on the open screen
 
 - **Home button.** Pressing Home while the Slopium app is already open brings that same screen back, instead of loading the Home copy over it. Pressing Home while that Home copy is already showing does not rebuild the page.
