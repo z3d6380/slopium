@@ -14,6 +14,8 @@ SRC=/media/developer/apps/usr/palm/applications/io.github.batmanrises.slopium
 HOMEAPP=/usr/palm/applications/com.webos.app.home
 BOOTLINK=/var/lib/webosbrew/init.d/47-slopium-direct-home
 WATCHLINK=/var/lib/webosbrew/init.d/48-slopium-homehook
+EARLY=/var/lib/webosbrew/slopium-early.sh
+STARTUP=/var/lib/webosbrew/startup.sh
 LOG=$STATE/boot.log
 CFG=/var/lib/webosbrew/slopium-config.json
 REV=$STATE/../slopium-config.rev
@@ -241,6 +243,42 @@ prepare_stage() {
   refresh_files
 }
 
+install_hooks() {
+  mkdir -p /var/lib/webosbrew/init.d "$STATE"
+  ln -sfn "$STATE/direct-home.sh" "$BOOTLINK"
+  chmod 755 "$STATE/direct-home.sh"
+  [ -f "$STAGE/resident.sh" ] && ln -sfn "$STAGE/resident.sh" /var/lib/webosbrew/init.d/44-slopium-resident
+  [ -f "$STAGE/hdmi-ads.sh" ] && ln -sfn "$STAGE/hdmi-ads.sh" /var/lib/webosbrew/init.d/43-hdmi-ad-block
+  [ -f "$STAGE/privacy/privacy.sh" ] && ln -sfn "$STAGE/privacy/privacy.sh" /var/lib/webosbrew/init.d/50-slopium-privacy
+  if [ -f "$SRC/slopium-early.sh" ]; then
+    cp "$SRC/slopium-early.sh" "$EARLY"
+    chmod 755 "$EARLY"
+  elif [ -f "$STAGE/slopium-early.sh" ]; then
+    cp "$STAGE/slopium-early.sh" "$EARLY"
+    chmod 755 "$EARLY"
+  fi
+  hook_startup
+}
+
+hook_startup() {
+  [ -f "$STARTUP" ] || return 0
+  grep -q '/var/lib/webosbrew/slopium-early.sh' "$STARTUP" && return 0
+  python3 - "$STARTUP" << 'PY'
+import sys
+path = sys.argv[1]
+text = open(path).read()
+needle = 'touch "${once}"'
+hook = '''touch "${once}"
+# Slopium mounts Home and the update stub before the rest of startup.
+if [ -x /var/lib/webosbrew/slopium-early.sh ]; then
+    /var/lib/webosbrew/slopium-early.sh || true
+fi'''
+if needle not in text:
+    sys.exit(0)
+open(path, "w").write(text.replace(needle, hook, 1))
+PY
+}
+
 apply() {
   launch_now=$1
   mkdir -p "$STATE"
@@ -274,8 +312,7 @@ apply() {
     stop_watcher
     prepare_stage || { echo failed; return 1; }
   fi
-  ln -sf "$STATE/direct-home.sh" "$BOOTLINK"
-  chmod 755 "$STATE/direct-home.sh"
+  install_hooks
   touch "$STATE/enabled"
   if [ "$launch_now" = "launch" ]; then
     luna launch '{"id":"com.webos.app.home"}' >/dev/null
@@ -284,33 +321,76 @@ apply() {
   echo applied
 }
 
+show_home() {
+  i=0
+  while [ "$i" -lt 20 ]; do
+    luna getAppInfo '{"id":"com.webos.app.home"}' | ok && break
+    i=$((i + 1))
+    sleep 1
+  done
+  i=0
+  while [ "$i" -lt 24 ]; do
+    front=$(luna getForegroundAppInfo '{}')
+    case "$front" in
+      *'"appId":"com.webos.app.livetv"'*)
+        log "Live TV was in front; opening Slopium"
+        luna closeByAppId '{"id":"com.webos.app.livetv"}' >/dev/null
+        luna closeByAppId '{"id":"com.webos.app.home"}' >/dev/null
+        sleep 1
+        luna launch '{"id":"com.webos.app.home","params":{"keepAlive":false}}' >/dev/null
+        return 0
+        ;;
+    esac
+    i=$((i + 1))
+    sleep 2
+  done
+}
+
+mount_early() {
+  if mounted; then
+    return 0
+  fi
+  mkdir -p "$STATE"
+  if ! prepare_stage; then
+    log "could not stage Slopium before Home started"
+    return 1
+  fi
+  if mount --bind "$STAGE" "$HOMEAPP"; then
+    log "mounted Slopium before the app manager settled"
+    touch "$STATE/just-mounted"
+    return 0
+  fi
+  log "early mount failed"
+  return 1
+}
+
+raise_slopium() {
+  # A hidden keep-alive copy answers a normal launch and stays off screen.
+  luna closeByAppId '{"id":"com.webos.app.home"}' >/dev/null
+  sleep 1
+  luna launch '{"id":"com.webos.app.home","params":{"keepAlive":false}}' >/dev/null
+  log "opened Slopium on the Home button"
+}
+
 boot() {
   [ -f "$STATE/enabled" ] || exit 0
   (
-    if mounted; then
-      stamp=$(src_stamp)
-      if [ -n "$stamp" ] && [ "$stamp" = "$(cat "$STATE/content-stamp" 2>/dev/null)" ]; then
-        write_seed
-        exit 0
-      fi
-      sh "$STATE/direct-home.sh" apply quiet
-      exit 0
-    fi
+    mount_early
     i=0
-    while [ "$i" -lt 15 ]; do
+    while [ "$i" -lt 30 ]; do
       luna getAppInfo '{"id":"com.webos.app.home"}' | ok && break
       i=$((i + 1))
+      sleep 1
     done
-    sh "$STATE/direct-home.sh" apply quiet
-    if [ -f "$STATE/just-mounted" ]; then
-      rm -f "$STATE/just-mounted"
-      front=$(luna getForegroundAppInfo '{}')
-      case "$front" in
-        *'"appId":"com.webos.app.home"'*)
-          luna launch '{"id":"com.webos.app.home"}' >/dev/null
-          ;;
-      esac
+    if ! reread || ! home_type_is web; then
+      sh "$STATE/direct-home.sh" apply quiet
+    else
+      kill_flutter_home
+      write_seed
     fi
+    rm -f "$STATE/just-mounted"
+    raise_slopium
+    show_home
   ) </dev/null >> "$LOG" 2>&1 &
   exit 0
 }

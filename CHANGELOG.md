@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.8: boot hooks
+
+- **Home comes up with Slopium.** Turning on “replace LG Home” installs the boot links for Home, memory, privacy, and HDMI ads, and adds an early hook to Homebrew’s startup script. After a restart that hook mounts Slopium and, when update blocking is on, covers the update program before the rest of startup. It does not change LG’s signed developer-mode script.
+- **Home button.** If another app is in front when Home is pressed, Slopium closes that app and comes forward.
+- **Update program.** Privacy’s firmware-update switch also covers `/usr/sbin/update` so the update popup does not get a head start at boot.
+
 ## 1.0.7: AirPlay switch
 
 - **AirPlay.** Settings → Options → AirPlay turns the AirPlay service on or off. On lets an iPhone send video and audio to the TV. Off stops the service so it does not stay in memory. The choice is kept across a restart. AirPlay is no longer a row in Memory.

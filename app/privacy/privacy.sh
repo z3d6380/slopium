@@ -109,10 +109,30 @@ reap_leftovers() {
     done
 }
 
+stop_update_daemon() {
+    stub=/var/lib/webosbrew/slopium-privacy.stub
+    [ -f "$stub" ] || return 0
+    if ! mountpoint -q /usr/sbin/update 2>/dev/null; then
+        mount --bind "$stub" /usr/sbin/update 2>/dev/null || return 0
+    fi
+    for cmd in /proc/[0-9]*/cmdline; do
+        [ -r "$cmd" ] || continue
+        line=$(tr '\0' ' ' < "$cmd" 2>/dev/null) || continue
+        case "$line" in
+            "/usr/sbin/update"|"/usr/sbin/update "*)
+                pid=${cmd#/proc/}
+                pid=${pid%/cmdline}
+                kill "$pid" 2>/dev/null || true
+                ;;
+        esac
+    done
+}
+
 sync_manifest() {
     if [ "$(value_in "$CONF" domains.updates)" = "on" ]; then
         mkdir -p /var/luna-service2/manifests.d
         printf '%s\n' "$STUB" > "$MANIFEST"
+        stop_update_daemon
         return
     fi
     if [ -f "$MANIFEST" ]; then

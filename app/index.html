@@ -8,7 +8,27 @@
     <script>
       document.addEventListener("webOSRelaunch", function () {
         var sys = window.PalmSystem || window.webOSSystem;
-        try { if (sys && sys.activate) sys.activate(); } catch (e) {}
+        function activate() {
+          try { if (sys && sys.activate) sys.activate(); } catch (e) {}
+        }
+        if (!document.hidden || typeof window.PalmServiceBridge !== "function") {
+          activate();
+          return;
+        }
+        var bridge = new window.PalmServiceBridge();
+        bridge.onservicecallback = function (body) {
+          var msg = {};
+          try { msg = JSON.parse(body); } catch (e) {}
+          var id = msg.appId || "";
+          if (id && id !== "com.webos.app.home") {
+            var closer = new window.PalmServiceBridge();
+            closer.onservicecallback = function () { activate(); };
+            closer.call("luna://com.webos.applicationManager/closeByAppId", JSON.stringify({ id: id }));
+          } else {
+            activate();
+          }
+        };
+        bridge.call("luna://com.webos.applicationManager/getForegroundAppInfo", "{}");
       });
     </script>
     <script src="./assets/config-seed.js"></script>
