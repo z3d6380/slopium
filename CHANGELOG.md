@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.10: one screen for the Home button, and power buttons
+
+- **Home button.** When Slopium is already on screen, Home stays on that same screen. The “start the TV on it” input is the Home screen itself, not a second copy of the app.
+- **Power.** Settings → Options can show Restart and Power off toward the top right. Each one asks you to press it again before it runs. Size and position can be changed.
+
 ## 1.0.9: one Slopium at boot
 
 - **One copy.** Boot copies the installed Slopium onto the Home button before that screen opens, so the two no longer drift apart after a Homebrew update.

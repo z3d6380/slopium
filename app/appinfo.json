@@ -1,6 +1,6 @@
 {
   "id": "io.github.batmanrises.slopium",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "vendor": "Slopium",
   "type": "web",
   "main": "index.html",
@@ -12,6 +12,9 @@
   "bgColor": "#000000",
   "resolution": "1920x1080",
   "disableBackHistoryAPI": true,
+  "handlesRelaunch": true,
+  "noSplashOnLaunch": true,
+  "spinnerOnLaunch": false,
   "transparent": false,
   "splashBackground": "splash.png",
   "requiredMemory": 20,

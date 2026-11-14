@@ -95,6 +95,8 @@ Useful settings: **Look** has the Recent apps panel width and height and the qui
 
 **AirPlay** (Settings → Options → AirPlay) lets an iPhone send video and audio to the TV. Off stops the AirPlay service so it does not stay in memory. The choice is kept after a restart. AirPlay is not listed again under Memory.
 
+**Power** (Settings → Options) can show Restart and Power off toward the top right of the home screen. Press a button once and it asks you to press it again. Size and position work like the input row.
+
 **HDMI ads** (Settings → Options → HDMI ads) has a switch for the ad card, the commercial overlay, and the food-delivery card on each HDMI port. Off stops that overlay. The HDMI input stays. A fresh install leaves them off, and a boot script puts the same choice back after a restart. The AI subtitle popup on each port is left alone.
 
 **Inputs** (Settings → Status) is a row of HDMI chips. Each chip shows the name the TV has for that port, and whether a cable is in or a picture is coming through. Point and click a chip to open that input. Each port can be hidden, the row can be moved and resized like the status row, and it can stay up while the screen is resting.
