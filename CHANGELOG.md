@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.13: power icons work, arrow focus, Wi-Fi recovery setting
+
+- **Power.** Restart uses the same call as Homebrew Channel’s System reboot. Power off uses the TV power service. The icons respond as soon as the screen is open.
+- **Remote.** Up from the top row still opens the weather card. Up again, or Up when that card is off, moves to the status row, the HDMI chips, and the power icons. Left and right move between them. OK does what a click does. Down or Back returns to the apps.
+- **Wi-Fi recovery.** Settings → Options → Wi-Fi recovery. On, which is the start, turns the radio off and on once if Wi-Fi is still down after boot, and leaves a working connection alone. The installer keeps the boot link, so a reinstall does not drop it.
+
 ## 1.0.12: quieter power icons, Home stays still
 
 - **Home button.** Pressing Home no longer flashes. The extra watcher that pulled the other Slopium copy forward is gone. A press while this screen is already open does nothing.

@@ -67,7 +67,7 @@
       ".in__row{display:flex;align-items:stretch;padding:4px;border-radius:18px;background:var(--color-tile-bg,rgba(8,12,16,.55));box-shadow:0 0 0 1px var(--color-tile-border,rgba(255,255,255,.16));text-shadow:0 1px 8px rgba(0,0,0,.35)}",
       ".in__chip{display:flex;flex-direction:column;justify-content:center;min-width:108px;max-width:168px;margin:0;padding:6px 14px 7px;border:0;border-left:1px solid var(--color-tile-border,rgba(255,255,255,.16));background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}",
       ".in__chip:first-child{border-left:0}",
-      ".in__chip:focus{outline:none;background:var(--color-tile-bg-focus,rgba(255,255,255,.08));border-radius:14px}",
+      ".in__chip:focus{outline:none;background:var(--color-tile-bg-focus,rgba(255,255,255,.08));border-radius:14px;box-shadow:inset 0 0 0 2px var(--color-tile-border-focus,#fff)}",
       ".in__chip--off{opacity:.42}",
       ".in__k{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--color-text-muted,rgba(255,255,255,.66))}",
       ".in__v{margin-top:1px;font-size:18px;font-weight:400;line-height:1.15}",
@@ -134,6 +134,7 @@
     list.forEach(function (device) {
       var chip = el("button", "in__chip" + (device.on || device.plugged ? "" : " in__chip--off"));
       chip.type = "button";
+      chip.setAttribute("data-chrome-id", "hdmi-" + device.port);
       var k = el("div", "in__k");
       k.textContent = labelFor(device);
       var v = el("div", "in__v");
@@ -149,6 +150,7 @@
       row.appendChild(chip);
     });
     root.appendChild(row);
+    if (window.SlopiumChrome) window.SlopiumChrome.restored();
   }
 
   function openInput(appId) {

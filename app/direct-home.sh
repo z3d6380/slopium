@@ -75,7 +75,7 @@ for p in sys.argv[1:]:
     except FileNotFoundError:
         pass
 print(h.hexdigest())' \
-    "$SRC/appinfo.json" "$SRC/assets/app.js" "$SRC/assets/persist.js" "$SRC/index.html" "$SRC/direct-home.sh"
+    "$SRC/appinfo.json" "$SRC/assets/app.js" "$SRC/assets/persist.js" "$SRC/index.html" "$SRC/direct-home.sh" "$SRC/wifi-recover.sh" "$SRC/assets/chrome.js" "$SRC/assets/power.js" "$SRC/power.sh"
 }
 
 write_appinfo() {
@@ -250,6 +250,10 @@ install_hooks() {
   [ -f "$STAGE/resident.sh" ] && ln -sfn "$STAGE/resident.sh" /var/lib/webosbrew/init.d/44-slopium-resident
   [ -f "$STAGE/hdmi-ads.sh" ] && ln -sfn "$STAGE/hdmi-ads.sh" /var/lib/webosbrew/init.d/43-hdmi-ad-block
   [ -f "$STAGE/privacy/privacy.sh" ] && ln -sfn "$STAGE/privacy/privacy.sh" /var/lib/webosbrew/init.d/50-slopium-privacy
+  if [ -f "$STAGE/wifi-recover.sh" ]; then
+    chmod 755 "$STAGE/wifi-recover.sh"
+    ln -sfn "$STAGE/wifi-recover.sh" /var/lib/webosbrew/init.d/46-wifi-recover
+  fi
   if [ -f "$SRC/slopium-early.sh" ]; then
     cp "$SRC/slopium-early.sh" "$EARLY"
     chmod 755 "$EARLY"

@@ -77,12 +77,56 @@
     return svg;
   }
 
+  function bridge(uri, payload, timeout) {
+    return new Promise(function (resolve, reject) {
+      if (typeof window.PalmServiceBridge !== "function") {
+        reject(new Error("not webos"));
+        return;
+      }
+      var call = new window.PalmServiceBridge();
+      var done = false;
+      var timerId = window.setTimeout(function () { finish(function () { reject(new Error("timeout")); }); }, timeout || 8000);
+      function finish(fn) {
+        if (done) return;
+        done = true;
+        window.clearTimeout(timerId);
+        try { call.cancel(); } catch (e) {}
+        fn();
+      }
+      call.onservicecallback = function (body) {
+        var msg;
+        try { msg = JSON.parse(body); } catch (e) { finish(function () { reject(e); }); return; }
+        if (!msg || msg.returnValue === false) finish(function () { reject(new Error("luna")); });
+        else finish(function () { resolve(msg); });
+      };
+      try { call.call(uri, JSON.stringify(payload || {})); }
+      catch (e) { finish(function () { reject(e); }); }
+    });
+  }
+
+  function run(action) {
+    var stage = "sh /var/lib/webosbrew/slopium-direct-home/app/power.sh " + action;
+    var app = "sh /media/developer/apps/usr/palm/applications/io.github.batmanrises.slopium/power.sh " + action;
+    if (action === "reboot") {
+      // Same call as Homebrew Channel's System reboot row.
+      bridge("luna://org.webosbrew.hbchannel.service/reboot", { reason: "SwDownload" }).catch(function () {
+        return bridge("luna://org.webosbrew.hbchannel.service/exec", { command: stage + " || " + app });
+      });
+      return;
+    }
+    bridge("luna://com.webos.service.tvpower/power/powerOff", { reason: "cpuCommand" }).catch(function () {
+      return bridge("luna://com.webos.service.tvpower/power/powerOff", { reason: "remoteKey" });
+    }).catch(function () {
+      return bridge("luna://org.webosbrew.hbchannel.service/exec", { command: stage + " || " + app });
+    });
+  }
+
   function press(action) {
     if (armed === action) {
       window.clearTimeout(armTimer);
       armed = "";
       render();
-      window.dispatchEvent(new CustomEvent("slopium-power", { detail: action }));
+      run(action);
       return;
     }
     armed = action;
@@ -104,7 +148,7 @@
       ".pw__row{display:flex;gap:10px}",
       ".pw__b{display:flex;align-items:center;justify-content:center;width:28px;height:28px;margin:0;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;opacity:.42;cursor:pointer}",
       ".pw__b svg{width:18px;height:18px;display:block}",
-      ".pw__b:focus{outline:none;opacity:.85}",
+      ".pw__b:focus{outline:none;opacity:1;box-shadow:0 0 0 2px currentColor}",
       ".pw__b--arm{opacity:1}"
     ].join("");
     document.head.appendChild(styleNode);
@@ -113,6 +157,7 @@
   function button(action, label) {
     var node = el("button", "pw__b" + (armed === action ? " pw__b--arm" : ""));
     node.type = "button";
+    node.setAttribute("data-chrome-id", action);
     node.setAttribute("aria-label", armed === action ? label + ", press again" : label);
     node.appendChild(icon(action));
     node.addEventListener("click", function () { press(action); });
@@ -136,6 +181,7 @@
     if (cfg.reboot) row.appendChild(button("reboot", "Restart"));
     if (cfg.shutdown) row.appendChild(button("shutdown", "Power off"));
     root.appendChild(row);
+    if (window.SlopiumChrome) window.SlopiumChrome.restored();
   }
 
   function sync() {

@@ -105,6 +105,8 @@
       ".screen--qhide .mx{opacity:0}",
       ".mx--hide{opacity:0}",
       ".mx__row{display:flex;align-items:center;padding:7px 8px 7px 10px;border-radius:18px;background:var(--color-tile-bg,rgba(8,12,16,.55));box-shadow:0 0 0 1px var(--color-tile-border,rgba(255,255,255,.16));text-shadow:0 1px 8px rgba(0,0,0,.35)}",
+      ".mx__hit{display:flex;align-items:center;margin:0;padding:0;border:0;background:transparent;color:inherit;font:inherit;pointer-events:auto;cursor:default}",
+      ".mx__hit:focus{outline:none;border-radius:18px;box-shadow:0 0 0 2px var(--color-tile-border-focus,#fff)}",
       ".mx__net{display:flex;align-items:center;gap:8px;padding:2px 12px 2px 4px;color:var(--color-text-primary,#fff)}",
       ".mx__net svg{display:block;width:22px;height:22px}",
       ".mx__net--dim{opacity:.42}",
@@ -188,6 +190,10 @@
     root.style.setProperty("--mx-scale", String((cfg ? cfg.size : 100) / 100));
     root.textContent = "";
     if (!show) return;
+    var hit = el("button", "mx__hit");
+    hit.type = "button";
+    hit.setAttribute("data-chrome-id", "status");
+    hit.setAttribute("aria-label", "Status");
     var row = el("div", "mx__row");
     var data = snap || {};
     if (cfg.net) {
@@ -207,7 +213,9 @@
     if (cfg.cpu) row.appendChild(cell("CPU", data.cpuPct == null ? "—" : data.cpuPct + "%", data.cpuPct || 0));
     if (cfg.mem) row.appendChild(cell("RAM", data.memPct == null ? "—" : data.memPct + "%", data.memPct || 0));
     if (cfg.disk) row.appendChild(cell("Free", data.diskFree == null ? "—" : gb(data.diskFree), data.diskPct || 0));
-    root.appendChild(row);
+    hit.appendChild(row);
+    root.appendChild(hit);
+    if (window.SlopiumChrome) window.SlopiumChrome.restored();
   }
 
   function applySample(cpu, mem, disk, net) {

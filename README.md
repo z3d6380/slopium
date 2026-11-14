@@ -72,6 +72,9 @@ One thing to keep in mind: both launchers can offer **"replace LG Home"** (Optio
 | Where | Key | Does |
 |---|---|---|
 | Home | ← → | Move along the row |
+| Home | ↑ | Open the weather card. ↑ again moves to status, HDMI, and the power icons. With the weather card off, ↑ goes straight there |
+| Home | ← → on those widgets | Move between status, each HDMI chip, and the power icons |
+| Home | OK on those widgets | Same as a click. HDMI opens that input. A power icon asks for a second press |
 | Home | OK | Open the app. The last tiles are LG Home, System and Slopium Settings |
 | Home | hold OK | The app's menu: move it, hide it, uninstall it |
 | Home | **Back** | Open the **Recent apps** panel |
@@ -87,7 +90,7 @@ Useful settings: **Look** has the Recent apps panel width and height and the qui
 
 **System** (the TV tile on the home row) is Slopium's own picture, sound, network and general pages. It uses the same type, tabs and rows as Settings, and it follows the theme and the settings-background slider. Channels, accounts and the rest of the TV's menu stay one row away, under Support → LG settings.
 
-**Status** (Settings → Status) is a quiet row on the home screen: the network icon, processor, memory in use, and free app storage. Each reading can be turned off, and the row can be resized and moved like the clock. It hides while the screen is resting, unless Keep while resting is on. The network name stays off until you turn it on. The row does not turn Wi-Fi on or off.
+**Status** (Settings → Status) is a quiet row on the home screen: the network icon, processor, memory in use, and free app storage. Each reading can be turned off, and the row can be resized and moved like the clock. It hides while the screen is resting, unless Keep while resting is on. The network name stays off until you turn it on. The row does not turn Wi-Fi on or off. The arrows can move onto it.
 
 **Privacy** (Settings → Options → Privacy) is the Life's Good Without Spying switches, drawn as Slopium rows: host blocks, voice and ad services, the DNS filter, IPv6, and the NTP clock. The firmware switch also stops the update service early. Apply writes those switches, then says Applied and stays idle until a switch changes. A boot script puts the same apply back after a restart. If AmazOff is installed, Apply keeps Prime's artwork line in the hosts file.
 
@@ -95,11 +98,13 @@ Useful settings: **Look** has the Recent apps panel width and height and the qui
 
 **AirPlay** (Settings → Options → AirPlay) lets an iPhone send video and audio to the TV. Off stops the AirPlay service so it does not stay in memory. The choice is kept after a restart. AirPlay is not listed again under Memory.
 
-**Power** (Settings → Options) can show small Restart and Power off icons in the top-right corner, clear of the HDMI chips. Press an icon once, then press it again. Size and position can be changed.
+**Wi-Fi recovery** (Settings → Options → Wi-Fi recovery) turns the Wi-Fi radio off and on once if it is still down after the TV starts. A connection that is already up is left alone. The switch starts on, and the installer keeps the boot link, so reinstalling Slopium does not drop it.
+
+**Power** (Settings → Options) can show small Restart and Power off icons in the top-right corner, clear of the HDMI chips. Press an icon once, then press it again. Restart uses Homebrew Channel’s reboot. The arrows can move to the icons. Size and position can be changed.
 
 **HDMI ads** (Settings → Options → HDMI ads) has a switch for the ad card, the commercial overlay, and the food-delivery card on each HDMI port. Off stops that overlay. The HDMI input stays. A fresh install leaves them off, and a boot script puts the same choice back after a restart. The AI subtitle popup on each port is left alone.
 
-**Inputs** (Settings → Status) is a row of HDMI chips. Each chip shows the name the TV has for that port, and whether a cable is in or a picture is coming through. Point and click a chip to open that input. Each port can be hidden, the row can be moved and resized like the status row, and it can stay up while the screen is resting.
+**Inputs** (Settings → Status) is a row of HDMI chips. Each chip shows the name the TV has for that port, and whether a cable is in or a picture is coming through. Point and click a chip, or move to it with the arrows and press OK, to open that input. Each port can be hidden, the row can be moved and resized like the status row, and it can stay up while the screen is resting.
 
 ### Settings a fresh install starts with
 
