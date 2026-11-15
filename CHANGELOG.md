@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.16: Wi-Fi recovery toggles again after 25 seconds
+
+- **Wi-Fi recovery.** If Wi-Fi is still down 25 seconds after boot, the radio is turned off and on once, the same way as the network settings. A connection that is already up is left alone. The previous build saw a radio that was on but not connected and left it that way.
+
 ## 1.0.15: a test reboot no longer trips Homebrew failsafe
 
 - **Failsafe.** Homebrew keeps a flag set until its whole startup script finishes. Slopium is already on screen by then, so rebooting to check the picture left that flag set and the next boot showed failsafe mode. The flag is now removed as soon as this boot creates it. A flag left by a startup that did not finish is still left for Homebrew to notice.
