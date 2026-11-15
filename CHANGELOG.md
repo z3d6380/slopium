@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.14: Wi-Fi recovery no longer power-cycles the radio
+
+- **Wi-Fi recovery.** If the radio is already on, it is left alone, even when an address is not ready yet. The script only turns the radio on when it is actually off, and it waits until Homebrew has finished its startup window. Power-cycling the radio was followed by a reboot that tripped Homebrew’s failsafe mode, and failsafe skips the recovery script.
+
 ## 1.0.13: power icons work, arrow focus, Wi-Fi recovery setting
 
 - **Power.** Restart uses the same call as Homebrew Channel’s System reboot. Power off uses the TV power service. The icons respond as soon as the screen is open.

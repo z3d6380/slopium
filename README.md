@@ -98,7 +98,7 @@ Useful settings: **Look** has the Recent apps panel width and height and the qui
 
 **AirPlay** (Settings → Options → AirPlay) lets an iPhone send video and audio to the TV. Off stops the AirPlay service so it does not stay in memory. The choice is kept after a restart. AirPlay is not listed again under Memory.
 
-**Wi-Fi recovery** (Settings → Options → Wi-Fi recovery) turns the Wi-Fi radio off and on once if it is still down after the TV starts. A connection that is already up is left alone. The switch starts on, and the installer keeps the boot link, so reinstalling Slopium does not drop it.
+**Wi-Fi recovery** (Settings → Options → Wi-Fi recovery) turns the Wi-Fi radio on if it is still off after the TV starts. A connection that is already up, and a radio that is already on, are left alone. The switch starts on, and the installer keeps the boot link, so reinstalling Slopium does not drop it.
 
 **Power** (Settings → Options) can show small Restart and Power off icons in the top-right corner, clear of the HDMI chips. Press an icon once, then press it again. Restart uses Homebrew Channel’s reboot. The arrows can move to the icons. Size and position can be changed.
 
