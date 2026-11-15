@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.15: a test reboot no longer trips Homebrew failsafe
+
+- **Failsafe.** Homebrew keeps a flag set until its whole startup script finishes. Slopium is already on screen by then, so rebooting to check the picture left that flag set and the next boot showed failsafe mode. The flag is now removed as soon as this boot creates it. A flag left by a startup that did not finish is still left for Homebrew to notice.
+
 ## 1.0.14: Wi-Fi recovery no longer power-cycles the radio
 
 - **Wi-Fi recovery.** If the radio is already on, it is left alone, even when an address is not ready yet. The script only turns the radio on when it is actually off, and it waits until Homebrew has finished its startup window. Power-cycling the radio was followed by a reboot that tripped Homebrew’s failsafe mode, and failsafe skips the recovery script.
